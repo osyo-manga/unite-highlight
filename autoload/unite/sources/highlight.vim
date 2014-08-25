@@ -21,6 +21,7 @@ let s:source = {
 \	"name" : "highlight",
 \	"description" : "output :highlight",
 \	"syntax" : "uniteSource_Highlight",
+\	"max_candidates" : 100,
 \	"hooks" : {},
 \}
 
