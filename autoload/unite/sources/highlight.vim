@@ -9,7 +9,7 @@ endfunction
 
 function! s:as_syntax(highlight)
 	let highlight = matchstr(a:highlight, '\s*\S*\ze\s\+xxx')
-	if empty(highlight)
+	if highlight == ""
 		return ""
 	endif
 	return printf("syntax match %s /\\s*%s/ contained containedin=uniteSource_Highlight", highlight, substitute(a:highlight, 'xxx', '\\zsxxx\\ze', "g"))
@@ -37,7 +37,11 @@ endfunction
 
 function! s:source.hooks.on_syntax(args, context)
 	for highlight in self.highlight_list
-		execute s:as_syntax(highlight)
+		try
+			execute s:as_syntax(highlight)
+		catch /\v^Vim%(\(\a+\))=:(E402)/
+			" https://github.com/osyo-manga/unite-highlight/issues/2
+		endtry
 	endfor
 endfunction
 
